@@ -14,7 +14,8 @@ function App() {
     <div className="min-h-screen bg-[#0b0b0b] text-white">
       <HeaderHero onConnect={handleConnect} />
 
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-8 md:-mt-12 space-y-6 pb-24">
+      {/* Pull the main content up so the claim panel appears right at the top, overlapping the hero */}
+      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-24 md:-mt-40 lg:-mt-48 space-y-6 pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">
             <ClaimCard />
