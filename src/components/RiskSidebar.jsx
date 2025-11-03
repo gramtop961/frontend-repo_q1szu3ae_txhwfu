@@ -1,27 +1,38 @@
 import React from 'react';
-import { AlertTriangle, CheckSquare, Play } from 'lucide-react';
 
-const RiskSidebar = ({ onSimulate }) => {
+export default function RiskSidebar() {
+  const items = [
+    { title: 'Review program', desc: 'Verify the claiming program ID and authority.' },
+    { title: 'Dry-run first', desc: 'Simulate the transaction before executing.' },
+    { title: 'Check fees', desc: 'Network congestion can increase fees.' },
+    { title: 'Hardware wallet', desc: 'Prefer a hardware wallet for high-value claims.' },
+  ];
+
   return (
-    <aside className="rounded-3xl border border-white/10 bg-white/10 backdrop-blur p-5 text-white shadow-lg shadow-[#CFF7E0]/10">
-      <div className="flex items-center gap-3 mb-3">
-        <AlertTriangle className="text-yellow-300" />
-        <h3 className="text-lg font-semibold">Atenção / Riscos</h3>
-      </div>
-      <ul className="space-y-2 text-sm">
-        <li className="flex items-start gap-2"><CheckSquare size={16} className="mt-0.5 text-white/70" />Pode queimar contas</li>
-        <li className="flex items-start gap-2"><CheckSquare size={16} className="mt-0.5 text-white/70" />Pode perder NFTs</li>
-        <li className="flex items-start gap-2"><CheckSquare size={16} className="mt-0.5 text-white/70" />Revise permissões antes de assinar</li>
+    <aside className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
+      <h3 className="text-base font-semibold text-white">Risk checklist</h3>
+      <ul className="mt-3 space-y-3">
+        {items.map((it, idx) => (
+          <li key={idx} className="rounded-xl border border-white/10 bg-black/30 p-3">
+            <div className="flex items-start gap-3">
+              <span className="mt-1 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-[#14F195]"></span>
+              <div>
+                <div className="text-sm font-medium text-white">{it.title}</div>
+                <div className="text-xs text-white/60">{it.desc}</div>
+              </div>
+            </div>
+          </li>
+        ))}
       </ul>
-      <button onClick={onSimulate} className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#2E2E2E] border border-white/10 px-4 py-2 text-white hover:bg-black/70 transition">
-        <Play size={16} />
-        Simular sem conectar
+      <button
+        onClick={() => {
+          const el = document.getElementById('accounts-table');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }}
+        className="mt-4 w-full rounded-xl border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/15"
+      >
+        Review accounts
       </button>
-      <div className="mt-4 rounded-xl border border-white/10 bg-[#0b0b0b]/60 p-3 text-xs text-white/70">
-        <p className="font-mono">Dica: use uma wallet vazia para testes.</p>
-      </div>
     </aside>
   );
-};
-
-export default RiskSidebar;
+}

@@ -1,40 +1,41 @@
 import React from 'react';
-import HeaderHero from './components/HeaderHero';
-import ClaimCard from './components/ClaimCard';
-import RiskSidebar from './components/RiskSidebar';
-import AccountsTable from './components/AccountsTable';
+import HeaderHero from './components/HeaderHero.jsx';
+import ClaimCard from './components/ClaimCard.jsx';
+import RiskSidebar from './components/RiskSidebar.jsx';
+import AccountsTable from './components/AccountsTable.jsx';
 
-function App() {
-  const handleConnect = () => {
-    alert('Connect Wallet (mock)');
-  };
-
+export default function App() {
   return (
-    <div className="min-h-screen bg-[#0b0b0b] text-white">
-      <HeaderHero onConnect={handleConnect} />
+    <div className="min-h-screen w-full bg-[#0b0b0f] text-white">
+      <HeaderHero />
 
-      {/* Elevate the claim panel to the very top over the hero */}
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-56 md:-mt-64 lg:-mt-72 space-y-6 pb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-2">
-            <ClaimCard />
+      <main className="relative z-10 -mt-20 pb-16">
+        <div className="mx-auto w-full max-w-6xl px-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <div className="md:col-span-2">
+              <ClaimCard />
+            </div>
+            <div className="md:col-span-1">
+              <RiskSidebar />
+            </div>
           </div>
-          <div className="lg:col-span-1">
-            <RiskSidebar onSimulate={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })} />
+
+          <div className="mt-6">
+            <AccountsTable />
           </div>
         </div>
-
-        <AccountsTable />
       </main>
 
-      <footer className="fixed bottom-0 left-0 right-0 md:hidden backdrop-blur bg-[#0b0b0bcc] border-t border-white/10 p-3">
-        <div className="mx-auto max-w-7xl px-2 flex items-center justify-between">
-          <p className="text-xs text-white/70">Taxa: <span className="font-mono">3.0% (máx 5%)</span></p>
-          <button className="rounded-xl bg-[#2E2E2E] text-white px-4 py-2 border border-white/10">CTA — Simular Claim</button>
+      {/* Mobile fixed CTA */}
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-20 block bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 md:hidden">
+        <div className="pointer-events-auto mx-auto flex max-w-md items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur">
+          <div>
+            <div className="text-xs text-white/70">Ready to claim?</div>
+            <div className="text-sm font-semibold">Connect your wallet</div>
+          </div>
+          <button className="rounded-xl bg-[#14F195] px-3 py-2 text-sm font-semibold text-black shadow">Connect</button>
         </div>
-      </footer>
+      </div>
     </div>
   );
 }
-
-export default App;
