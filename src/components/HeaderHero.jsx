@@ -2,104 +2,152 @@ import React from 'react';
 import Spline from '@splinetool/react-spline';
 import { ShieldCheck, Wallet } from 'lucide-react';
 
-// Single coin with Solana-inspired tri-bar accent
-const SolanaCoin = ({ side = 'left', top, delay, duration, offset = 0 }) => (
-  <div
-    className={`absolute ${
-      side === 'left'
-        ? '-left-4 md:left-4'
-        : side === 'right'
-        ? '-right-4 md:right-4'
-        : 'left-1/2 -translate-x-1/2'
-    } pointer-events-none`}
-    style={{ top, transform: side === 'center' ? `translateX(calc(-50% + ${offset}px))` : undefined }}
-    aria-hidden
-  >
-    <div
-      className="relative w-8 h-8 md:w-10 md:h-10 rounded-full"
-      style={{
-        animation: `fall ${duration}s linear ${delay}s infinite`,
-        background:
-          'radial-gradient(55% 55% at 35% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.05) 60%), conic-gradient(from 120deg, #14F195, #9945FF, #14F195)',
-        border: '1px solid rgba(255,255,255,0.5)',
-        boxShadow:
-          'inset 0 1px 6px rgba(255,255,255,0.45), 0 10px 36px rgba(153,69,255,0.25), 0 6px 26px rgba(20,241,149,0.18)'
-      }}
-    >
-      {/* Solana tri-bars */}
-      <span
-        className="absolute left-1.5 right-1.5 h-1.5 rounded-[6px]"
-        style={{
-          top: '26%',
-          transform: 'skewX(-18deg)',
-          background: 'linear-gradient(90deg, #14F195, #80FFE8 40%, #7A5CFF, #9945FF)'
-        }}
-      />
-      <span
-        className="absolute left-1.5 right-1.5 h-1.5 rounded-[6px]"
-        style={{
-          top: '45%',
-          transform: 'skewX(-18deg)',
-          background: 'linear-gradient(90deg, #14F195, #80FFE8 40%, #7A5CFF, #9945FF)'
-        }}
-      />
-      <span
-        className="absolute left-1.5 right-1.5 h-1.5 rounded-[6px]"
-        style={{
-          top: '64%',
-          transform: 'skewX(-18deg)',
-          background: 'linear-gradient(90deg, #14F195, #80FFE8 40%, #7A5CFF, #9945FF)'
-        }}
-      />
-    </div>
-  </div>
-);
+// Solana coin in "coin mode" with metallic rim and embossed tri-bar logo
+const SolanaCoin = ({ lane = 'left', top, delay = 0, duration = 8, size = 40, offset = 0 }) => {
+  const lanePosition =
+    lane === 'left'
+      ? '-left-4 md:left-6'
+      : lane === 'right'
+      ? '-right-4 md:right-6'
+      : 'left-1/2 -translate-x-1/2';
 
-// Animated Solana-themed tokens falling down sides and center
+  return (
+    <div
+      className={`absolute ${lanePosition} pointer-events-none`}
+      style={{ top, transform: lane === 'center' ? `translateX(calc(-50% + ${offset}px))` : undefined }}
+      aria-hidden
+    >
+      <div
+        className="relative rounded-full will-change-transform"
+        style={{
+          width: size,
+          height: size,
+          animation: `fall ${duration}s linear ${delay}s infinite`,
+          transformStyle: 'preserve-3d',
+          boxShadow: '0 8px 30px rgba(153,69,255,0.25), 0 6px 20px rgba(20,241,149,0.18)'
+        }}
+      >
+        {/* Metallic holographic rim */}
+        <div
+          className="absolute inset-0 rounded-full"
+          style={{
+            background:
+              'conic-gradient(from 0deg, #cbb7ff, #14F195, #80FFE8, #7A5CFF, #9945FF, #cbb7ff)',
+            filter: 'saturate(115%)',
+          }}
+        />
+        {/* Inner coin face */}
+        <div
+          className="absolute inset-[2px] rounded-full flex items-center justify-center"
+          style={{
+            background:
+              'radial-gradient(60% 60% at 40% 35%, rgba(255,255,255,0.85), rgba(255,255,255,0.06) 60%), linear-gradient(140deg, rgba(203,183,255,0.25), rgba(20,241,149,0.12))',
+            border: '1px solid rgba(255,255,255,0.45)',
+            boxShadow:
+              'inset 0 2px 8px rgba(255,255,255,0.35), inset 0 -8px 16px rgba(0,0,0,0.25)',
+            backdropFilter: 'blur(2px)'
+          }}
+        >
+          {/* Embossed Solana tri-bars */}
+          <div className="relative w-[70%] h-[70%]">
+            <span
+              className="absolute left-0 right-0 h-[16%] rounded-[8px]"
+              style={{
+                top: '16%',
+                transform: 'skewX(-18deg)',
+                background: 'linear-gradient(90deg, #14F195, #80FFE8 45%, #7A5CFF, #9945FF)',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.35), inset 0 1px 2px rgba(255,255,255,0.35)'
+              }}
+            />
+            <span
+              className="absolute left-0 right-0 h-[16%] rounded-[8px]"
+              style={{
+                top: '42%',
+                transform: 'skewX(-18deg)',
+                background: 'linear-gradient(90deg, #14F195, #80FFE8 45%, #7A5CFF, #9945FF)',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.35), inset 0 1px 2px rgba(255,255,255,0.35)'
+              }}
+            />
+            <span
+              className="absolute left-0 right-0 h-[16%] rounded-[8px]"
+              style={{
+                top: '68%',
+                transform: 'skewX(-18deg)',
+                background: 'linear-gradient(90deg, #14F195, #80FFE8 45%, #7A5CFF, #9945FF)',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.35), inset 0 1px 2px rgba(255,255,255,0.35)'
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Subtle specular highlight sweep */}
+        <div
+          className="absolute -inset-[6%] rounded-full"
+          style={{
+            background: 'conic-gradient(from 210deg, transparent 0 25%, rgba(255,255,255,0.25) 26% 32%, transparent 33% 100%)',
+            animation: `spec 4.5s ease-in-out ${delay + 0.4}s infinite`
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
+// Falling lanes: sides + centered lane
 const FallingCoins = () => (
   <div className="absolute inset-y-0 left-0 right-0 pointer-events-none" aria-hidden>
     <style>{`
       @keyframes fall {
-        0% { transform: translateY(-20%) rotate(0deg); opacity: .0; }
+        0% { transform: translateY(-25%) rotateZ(0deg) rotateY(0deg); opacity: 0; }
         10% { opacity: .95; }
-        100% { transform: translateY(120%) rotate(360deg); opacity: .0; }
+        50% { transform: translateY(45%) rotateZ(140deg) rotateY(180deg); }
+        100% { transform: translateY(120%) rotateZ(360deg) rotateY(360deg); opacity: 0; }
+      }
+      @keyframes spec {
+        0% { opacity: 0; transform: rotate(0deg); }
+        15% { opacity: .8; }
+        35% { opacity: 0; }
+        100% { transform: rotate(360deg); opacity: 0; }
       }
     `}</style>
 
-    {/* Side glows to frame the hero */}
+    {/* Side glows */}
     <div className="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-[#9945FF22] to-transparent blur-2xl" />
     <div className="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-[#14F19522] to-transparent blur-2xl" />
 
-    {/* Left column tokens */}
+    {/* Left lane */}
     {[...Array(6)].map((_, i) => (
       <SolanaCoin
         key={`l-${i}`}
-        side="left"
-        top={`${-12 + i * 15}%`}
-        duration={8 + i}
-        delay={i * 0.7}
+        lane="left"
+        top={`${-14 + i * 16}%`}
+        duration={8 + i * 0.6}
+        delay={i * 0.55}
+        size={36 + (i % 3) * 4}
       />
     ))}
 
-    {/* Right column tokens */}
+    {/* Right lane */}
     {[...Array(6)].map((_, i) => (
       <SolanaCoin
         key={`r-${i}`}
-        side="right"
-        top={`${-6 + i * 17}%`}
-        duration={7 + i}
-        delay={i * 0.65}
+        lane="right"
+        top={`${-10 + i * 17}%`}
+        duration={7.5 + i * 0.6}
+        delay={i * 0.5}
+        size={36 + ((i + 1) % 3) * 4}
       />
     ))}
 
-    {/* Center column tokens with slight horizontal jitter for depth */}
+    {/* Center lane with slight horizontal jitter */}
     {[...Array(7)].map((_, i) => (
       <SolanaCoin
         key={`c-${i}`}
-        side="center"
-        top={`${-10 + i * 14}%`}
-        duration={6.5 + i * 0.8}
-        delay={i * 0.6}
+        lane="center"
+        top={`${-12 + i * 14}%`}
+        duration={6.8 + i * 0.7}
+        delay={i * 0.48}
+        size={40 + (i % 2) * 6}
         offset={(i % 2 === 0 ? -1 : 1) * (6 + i * 2)}
       />
     ))}
@@ -148,7 +196,7 @@ const HeaderHero = ({ onConnect }) => {
           />
           {/* Dark vertical fade for legibility */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#0b0b0b44] to-[#0b0b0bcc]" />
-          {/* Falling Solana tokens layer (sides + center) */}
+          {/* Falling Solana coins in coin mode */}
           <FallingCoins />
         </div>
 
@@ -159,7 +207,7 @@ const HeaderHero = ({ onConnect }) => {
             <p className="text-white text-2xl md:text-3xl font-semibold">3.0% <span className="text-white/60 text-base align-middle">(máx 5%)</span></p>
           </div>
           <div className="flex items-center gap-2 text-white/80">
-            <span className="text-xs md:text-sm font-mono bg-white/5 px-2 py-1 rounded-lg border border-white/10">Solana tokens caindo no centro</span>
+            <span className="text-xs md:text-sm font-mono bg-white/5 px-2 py-1 rounded-lg border border-white/10">Solana coins em modo moeda</span>
           </div>
         </div>
       </div>
