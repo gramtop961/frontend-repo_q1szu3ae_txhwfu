@@ -3,10 +3,16 @@ import Spline from '@splinetool/react-spline';
 import { ShieldCheck, Wallet } from 'lucide-react';
 
 // Single coin with Solana-inspired tri-bar accent
-const SolanaCoin = ({ side = 'left', top, delay, duration }) => (
+const SolanaCoin = ({ side = 'left', top, delay, duration, offset = 0 }) => (
   <div
-    className={`absolute ${side === 'left' ? '-left-4 md:left-4' : '-right-4 md:right-4'} pointer-events-none`}
-    style={{ top }}
+    className={`absolute ${
+      side === 'left'
+        ? '-left-4 md:left-4'
+        : side === 'right'
+        ? '-right-4 md:right-4'
+        : 'left-1/2 -translate-x-1/2'
+    } pointer-events-none`}
+    style={{ top, transform: side === 'center' ? `translateX(calc(-50% + ${offset}px))` : undefined }}
     aria-hidden
   >
     <div
@@ -49,8 +55,8 @@ const SolanaCoin = ({ side = 'left', top, delay, duration }) => (
   </div>
 );
 
-// Animated Solana-themed tokens falling down both sides
-const SideCoins = () => (
+// Animated Solana-themed tokens falling down sides and center
+const FallingCoins = () => (
   <div className="absolute inset-y-0 left-0 right-0 pointer-events-none" aria-hidden>
     <style>{`
       @keyframes fall {
@@ -83,6 +89,18 @@ const SideCoins = () => (
         top={`${-6 + i * 17}%`}
         duration={7 + i}
         delay={i * 0.65}
+      />
+    ))}
+
+    {/* Center column tokens with slight horizontal jitter for depth */}
+    {[...Array(7)].map((_, i) => (
+      <SolanaCoin
+        key={`c-${i}`}
+        side="center"
+        top={`${-10 + i * 14}%`}
+        duration={6.5 + i * 0.8}
+        delay={i * 0.6}
+        offset={(i % 2 === 0 ? -1 : 1) * (6 + i * 2)}
       />
     ))}
   </div>
@@ -125,13 +143,13 @@ const HeaderHero = ({ onConnect }) => {
       <div className="relative z-0 h-[560px] md:h-[680px] lg:h-[760px]">
         <div className="absolute inset-0 overflow-hidden">
           <Spline
-            scene="https://prod.spline.design/5fQlL0qinzob1I8q/scene.splinecode"
+            scene="https://prod.spline.design/44zrIZf-iQZhbQNQ/scene.splinecode"
             style={{ width: '100%', height: '100%' }}
           />
           {/* Dark vertical fade for legibility */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#0b0b0b44] to-[#0b0b0bcc]" />
-          {/* Side Solana tokens layer */}
-          <SideCoins />
+          {/* Falling Solana tokens layer (sides + center) */}
+          <FallingCoins />
         </div>
 
         {/* Bottom meta over the animation */}
@@ -141,7 +159,7 @@ const HeaderHero = ({ onConnect }) => {
             <p className="text-white text-2xl md:text-3xl font-semibold">3.0% <span className="text-white/60 text-base align-middle">(máx 5%)</span></p>
           </div>
           <div className="flex items-center gap-2 text-white/80">
-            <span className="text-xs md:text-sm font-mono bg-white/5 px-2 py-1 rounded-lg border border-white/10">Solana tokens caindo no fundo</span>
+            <span className="text-xs md:text-sm font-mono bg-white/5 px-2 py-1 rounded-lg border border-white/10">Solana tokens caindo no centro</span>
           </div>
         </div>
       </div>
